@@ -12,5 +12,6 @@ namespace MyOnlineStore.Models
         {
         }
         public DbSet<StoreItems> StoreItems { get; set; }
+
     }
 }
