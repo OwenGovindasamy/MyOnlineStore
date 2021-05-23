@@ -15,8 +15,21 @@ namespace MyOnlineStore.Models
                 {
                     new StoreItems
                     {
-                        Description = "Alienware Laptop",
-                        Price = 5000
+                        Description = "Razor blade14",
+                        Price = 5000,
+                        ImageUrl = "https://assets.razerzone.com/eeimages/products/26727/rzrblade14-04__store_gallery.png"
+                    },
+                    new StoreItems
+                    {
+                        Description = "Razer ouroboros",
+                        Price = 1000,
+                        ImageUrl = "https://assets.razerzone.com/eeimages/products/752/razer-ouroboros-gallery-3__store_gallery.png"
+                    },
+                    new StoreItems
+                    {
+                        Description = "Razer blackshark",
+                        Price = 1200,
+                        ImageUrl = "https://assets.razerzone.com/eeimages/products/5890/razer-blackshark-gallery-4__store_gallery.png"
                     },
                 };
 

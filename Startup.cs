@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyOnlineStore.Interfaces;
+using MyOnlineStore.Logic;
 using MyOnlineStore.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,7 @@ namespace MyOnlineStore
 
             services.AddDbContext<ApplicationDbContext>(options => //db connection
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IApiMethods, ApiMethods>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

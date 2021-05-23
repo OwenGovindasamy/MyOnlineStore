@@ -1,8 +1,29 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model List<StoreItems>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{ int commentCount = 0; }
+ 
+<div class="items-container">
+
+    @foreach (var item in Model)
+    {
+        commentCount++;
+
+        <!-- item @commentCount -->
+        <div class="item">
+            <img src="@item.ImageUrl">
+            <div class="overflow">
+                <i class="fa fa-cart-plus fa-5x" id="basket"></i>
+            </div>
+            <div class="item-detail">
+                <h4>@item.Description</h4>
+                <div class="prices">
+                    <p>R </p>
+                    <p class="price">@item.Price</p>
+                </div>
+            </div>
+        </div>
+    }
 </div>

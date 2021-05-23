@@ -1,11 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MyOnlineStore.Interfaces;
+using MyOnlineStore.Logic;
 using MyOnlineStore.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MyOnlineStore.Controllers
@@ -14,20 +20,19 @@ namespace MyOnlineStore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IApiMethods _apiMethods;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(UserManager<IdentityUser> userManager, ILogger<HomeController> logger, IApiMethods apiMethods)
         {
+            _userManager = userManager;
             _logger = logger;
+            _apiMethods = apiMethods;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult<List<StoreItems>>> Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(await _apiMethods.GetStoreItems());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

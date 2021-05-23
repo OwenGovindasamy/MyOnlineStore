@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - MyOnlineStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/HomePage/Main.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -28,9 +29,25 @@
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                    </form>
+                    <div class="cart" style="margin-top:-4vh">
+                        <i class="fa fa-shopping-basket fa-2x"></i>
+                        <i class="fa fa-caret-down"></i><br>
+                        <div class="total-text">
+                            <p>Items</p>
+                            <p id="items-basket"></p>
+                        </div>
+                    </div>
+
+                    <div id="cart-items">
+                        <ol id="list-item">
+                        </ol>
+
+                        <div class="total-text">
+                            <p style='color:white'>Total: </p>
+                            <p style='color:white' id="total-price"></p>
+                        </div>
+                    </div>
+
                 }
             </div>
         </nav>
@@ -49,6 +66,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/HomeScripts/Main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

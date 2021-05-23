@@ -24,6 +24,7 @@ namespace MyOnlineStore.Areas.Identity
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false; //allow weaker passwords
                     options.Password.RequireNonAlphanumeric = false; }).AddEntityFrameworkStores<AuthContext>();
+
             });
         }
     }

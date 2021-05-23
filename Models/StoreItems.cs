@@ -13,5 +13,6 @@ namespace MyOnlineStore.Models
         public string Description { get; set; }
         public Decimal Price { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.Now;
+        public string ImageUrl { get; set; }
     }
 }
