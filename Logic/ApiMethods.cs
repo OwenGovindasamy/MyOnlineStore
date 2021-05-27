@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace MyOnlineStore.Logic
@@ -38,6 +39,28 @@ namespace MyOnlineStore.Logic
                 }
                 return new List<StoreItems>();
             }
+        }
+        public static async Task<string> GetInfo(string authorizeToken)
+        {
+            string responseObj = string.Empty;
+
+            using (var client = new HttpClient())
+            {
+
+                string authorization = authorizeToken;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
+                client.BaseAddress = new Uri("http://localhost:50632/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = new HttpResponseMessage();
+                response = await client.GetAsync("api/Store").ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+            }
+
+            return responseObj;
         }
 
     }
