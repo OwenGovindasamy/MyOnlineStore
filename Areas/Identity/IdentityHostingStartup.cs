@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyOnlineStore.Data;
+using MyOnlineStore.Models;
 
 [assembly: HostingStartup(typeof(MyOnlineStore.Areas.Identity.IdentityHostingStartup))]
 namespace MyOnlineStore.Areas.Identity

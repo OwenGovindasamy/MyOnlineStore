@@ -32,7 +32,13 @@ namespace MyOnlineStore.Controllers
 
         public async Task<ActionResult<List<StoreItems>>> Index()
         {
-            return View(await _apiMethods.GetStoreItems());
+            UserToken userToken = await _apiMethods.GetToken();
+            
+            if(userToken.Token != null)
+            {
+                return View(await _apiMethods.PostWithToken(userToken.Token));
+            }
+            throw new Exception("Invalid Token");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

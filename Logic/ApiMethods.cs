@@ -1,4 +1,5 @@
-﻿using MyOnlineStore.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using MyOnlineStore.Interfaces;
 using MyOnlineStore.Models;
 using Newtonsoft.Json;
 using System;
@@ -13,34 +14,15 @@ namespace MyOnlineStore.Logic
     public class ApiMethods : IApiMethods
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _mySettings;
 
-        public ApiMethods(ApplicationDbContext context)
+        public ApiMethods(ApplicationDbContext context, IConfiguration mySettings)
         {
             _context = context;
+            _mySettings = mySettings;
         }
 
-        public async Task<List<StoreItems>> GetStoreItems()
-        {
-            string apiUrl = "http://localhost:50632/api/Store";
-
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadAsStringAsync();
-
-                    return JsonConvert.DeserializeObject<List<StoreItems>>(result);
-
-                }
-                return new List<StoreItems>();
-            }
-        }
-        public static async Task<string> GetInfo(string authorizeToken)
+        public async Task<List<StoreItems>> PostWithToken(string authorizeToken)
         {
             string responseObj = string.Empty;
 
@@ -56,12 +38,49 @@ namespace MyOnlineStore.Logic
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var result = await response.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<List<StoreItems>>(result);
 
                 }
+                return new List<StoreItems>();
             }
-
-            return responseObj;
         }
 
+        public async Task<UserToken> GetToken()
+        {
+            string email = _mySettings.GetValue<string>("AppConfig:Email");
+            string password = _mySettings.GetValue<string>("AppConfig:Password");
+
+            try
+            {
+                string apiUrl = "http://localhost:5000/api/User/Login";
+
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Email", email);
+                    client.DefaultRequestHeaders.Add("Password", password);
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = new HttpResponseMessage();
+                    response = await client.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<UserToken>(result);
+                    }
+                    else
+                    {
+                        return JsonConvert.DeserializeObject<UserToken>(response.StatusCode.ToString());
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception("Unable to login to Api" + e);
+            }
+        }
+    
     }
 }
