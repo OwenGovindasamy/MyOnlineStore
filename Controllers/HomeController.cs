@@ -32,9 +32,9 @@ namespace MyOnlineStore.Controllers
 
         public async Task<ActionResult<List<StoreItems>>> Index()
         {
-            UserToken userToken = await _apiMethods.GetToken();
+            var userToken = await _apiMethods.GetToken();
             
-            if(userToken.Token != null)
+            if(!String.IsNullOrEmpty(userToken.Token))
             {
                 return View(await _apiMethods.PostWithToken(userToken.Token));
             }

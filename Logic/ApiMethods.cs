@@ -31,7 +31,7 @@ namespace MyOnlineStore.Logic
 
                 string authorization = authorizeToken;
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
-                client.BaseAddress = new Uri("http://localhost:50632/");
+                client.BaseAddress = new Uri("http://localhost:5000/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = new HttpResponseMessage();
                 response = await client.GetAsync("api/Store").ConfigureAwait(false);
@@ -54,14 +54,11 @@ namespace MyOnlineStore.Logic
 
             try
             {
-                string apiUrl = "http://localhost:5000/api/User/Login";
+                string apiUrl = "http://localhost:5000/api/User/Login?email="+email+"&password="+password+"";
 
                 using (var client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Email", email);
-                    client.DefaultRequestHeaders.Add("Password", password);
                     client.BaseAddress = new Uri(apiUrl);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     HttpResponseMessage response = new HttpResponseMessage();
                     response = await client.GetAsync(apiUrl);
 
